@@ -4,7 +4,9 @@
   imports = [
       inputs.impermanence.nixosModules.home-manager.impermanence
       inputs.nixvim.homeManagerModules.nixvim
+      inputs.nix-colors.homeManagerModules.default
       ./home-manager/zsh
+      ./home-manager/nixvim
       ./home-manager/hyprland
       ./home-manager/firefox
       ./home-manager/git
@@ -15,56 +17,57 @@
   nixpkgs.config.allowUnfree = true; # sins ahead
   nixpkgs.config.allowUnfreePredicate = _: true;       # Workaround for https://github.com/nix-community/home-manager/issues/2942
 
-    home.username = "xilef";
+  home.username = "xilef";
   home.homeDirectory = "/home/xilef";
   home.stateVersion = "23.11"; # Please read the comment before changing.
-    home.persistence."/persist/home-xilef" = {
-      directories = [
-	".mozilla/firefox"
-      ];
-      files = [ 
-	".config/sops/age/keys.txt"
-	".zsh_history"
-      ];
-      allowOther = true;
-    };
+  home.persistence."/persist/home-xilef" = {
+    directories = [
+      ".mozilla/firefox"
+    ];
+    files = [ 
+      ".config/sops/age/keys.txt"
+      ".zsh_history"
+    ];
+    allowOther = true;
+  };
 
   home.packages = with pkgs; [
-# GUIs
+    # GUIs
     spotify
-      discord
-      insomnia
-      zoom-us
-      whatsapp-for-linux
-      telegram-desktop
-      libreoffice
-      rofi
-      obsidian
-      pavucontrol # to manage sound (through waybar)
-      dunst # notifications
-      libnotify # notifications
-      wbg # set a background image
-      hyprpicker # (good) color picker
-      pkgs.jetbrains.phpstorm
-      pkgs.jetbrains.goland
+    discord
+    insomnia
+    zoom-us
+    whatsapp-for-linux
+    telegram-desktop
+    libreoffice
+    rofi
+    obsidian
+    pavucontrol # to manage sound (through waybar)
+    dunst # notifications
+    libnotify # notifications
+    wbg # set a background image
+    hyprpicker # (good) color picker
+    pkgs.jetbrains.phpstorm
+    pkgs.jetbrains.goland
 
-# TUIs
-btop
-# Utilities
-      yubikey-manager
-      playerctl # for waybar
-      bat # a cat alternative
-      fzf # for fuzzy finding in mcfly, zoxide, or other
-      wev # xev equivalent for wayland -- to debug which key is press
-      neofetch # I use NixOS by the way
-      ripgrep # better grep, used in nvim (telescope) and when grepping stuff
-      fd # for neovim (telescope)
-      wl-clipboard
-      nix-prefetch-git # to get the sha256 hash of a git package
-      unzip # for the 'x' alias to work with .zip
-      ];
+    # TUIs
+    btop
 
+    # Utilities
+    yubikey-manager
+    playerctl # for waybar
+    bat # a cat alternative
+    fzf # for fuzzy finding in mcfly, zoxide, or other
+    wev # xev equivalent for wayland -- to debug which key is press
+    neofetch # I use NixOS by the way
+    ripgrep # better grep, used in nvim (telescope) and when grepping stuff
+    fd # for neovim (telescope)
+    wl-clipboard
+    nix-prefetch-git # to get the sha256 hash of a git package
+    unzip # for the 'x' alias to work with .zip
+  ];
 
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
   qt.enable = true;
   qt.platformTheme = "gnome";
@@ -78,16 +81,12 @@ btop
   gtk.theme.package = pkgs.adw-gtk3;
   gtk.theme.name = "adw-gtk3";
 
-
-
-
   programs.gh = {
     enable = true;
     settings = {
       git_protocol = "ssh";
     };
   };
-
 
   programs.ssh = {
     enable = false;
@@ -99,18 +98,16 @@ btop
     };
   };
 
-
   home.file.".npmrc".text = ''
     audit = false
     fund = false
     loglevel = error
-    '';
+  '';
 
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };
-
 
   programs.mcfly = {
     enable = true;

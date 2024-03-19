@@ -12,7 +12,9 @@
       owner = "restic";
     };
 
-    "pwd" = {};
+    "pwd" = {
+     	neededForUsers = true;
+    };
      };
 
        environment.systemPackages = with pkgs; [ sops ];

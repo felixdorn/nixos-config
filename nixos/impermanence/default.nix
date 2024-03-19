@@ -42,7 +42,6 @@ boot.initrd.postDeviceCommands = lib.mkAfter ''
               "Downloads"
               "Documents"
       	"Projects"
-      	"nixos"
       	".cache/JetBrains"
       	".local/.share/JetBrains"
       	".config/JetBrains"

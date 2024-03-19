@@ -56,7 +56,7 @@
     createHome = true;
     isNormalUser = true;
     shell = pkgs.zsh;
-    initialPassword = config.sops.secrets.pwd.path;
+    hashedPasswordFile = config.sops.secrets.pwd.path;
     extraGroups = [ "networkmanager" "wheel" "audio" "input" "docker" ];
   };
 

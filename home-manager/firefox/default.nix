@@ -23,7 +23,6 @@ programs.firefox = let
 	DisableTelemetry = true;
 	DisableFirefoxStudies = true;
 	DisablePocket = true;
-	DisablePrivateBrowsing = true;
 	DisableFirefoxScreenshots = true;
 	DisableSetDesktopBackground = true;
 	NoDefaultBookmarks = false;
