@@ -24,4 +24,9 @@
   ];
 
   xdg.configFile."wallpaper.jpg".source = ./data/wallpaper.jpg;
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    TERM = "alacritty";
+  };
 }
