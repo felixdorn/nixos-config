@@ -23,5 +23,6 @@
      merge = { ff = "only"; };
      rebase = { autoSquash = "true"; };
      github = { user = "felixdorn"; };
+   };
   };
 }

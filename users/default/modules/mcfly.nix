@@ -4,5 +4,5 @@
     fzf.enable = true;
     enableZshIntegration = true;
     keyScheme = "vim";
-  }
+  };
 }
