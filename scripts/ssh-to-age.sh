@@ -10,4 +10,6 @@ if [ ! -f /home/default/.ssh/id_rsa ]; then
   exit 1
 fi
 
+mkdir -p /home/default/.config/sops/age
+
 nix run nixpkgs#ssh-to-age  -- -private-key -i /home/default/.ssh/id_rsa > /home/default/.config/sops/age/keys.txt

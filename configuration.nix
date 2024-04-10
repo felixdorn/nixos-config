@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, ... }:
+args @ { inputs, config, pkgs, ... }:
 
 {
   imports =
@@ -74,14 +74,19 @@
   # Home Manager
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = builtins.listToAttrs (map 
-      (user: { name = user; value = import ./users/${user}; })
+    users = let common = {
+      nixpkgs.config.allowUnfree = true;
+    }; in builtins.listToAttrs (map 
+      (user: { 
+          name = user;
+	  value = ((import ./users/${user}) args) // common;
+      })
       (
         builtins.filter 
 	  (user: config.users.users.${user}.isNormalUser)
 	  (builtins.attrNames config.users.users)
       )
-     );
+    );
   };
 
   # Automatic login
@@ -100,4 +105,5 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
+  nixpkgs.config.allowUnfree = true;
 }
