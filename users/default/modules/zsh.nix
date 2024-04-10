@@ -29,5 +29,6 @@
       enable = true;
 
       plugins = [ "extract" "sudo" "git" ];
+    };
   };
 }
