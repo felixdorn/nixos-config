@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   imports =
@@ -43,7 +43,7 @@
   # Keyboard
   services.xserver.xkb = {
     layout = "fr";
-    xkbVariant = "";
+    variant = "";
   };
   console.keyMap = "fr";
 
@@ -71,9 +71,15 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  # Home Manager
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = builtins.listToAttrs (map (u: { name = u; value = import ./users/${u}.nix; }) (builtins.attrNames config.users.users));
+  };
+
   # Automatic login
   services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "xilef";
+  services.xserver.displayManager.autoLogin.user = "default";
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
