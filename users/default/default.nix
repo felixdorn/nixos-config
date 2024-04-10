@@ -1,9 +1,7 @@
 { pkgs, config, inputs, lib, ... }:
 
 {
-  imports = [
-
-  ] ++ lib.filesystem.listFilesRecursive ./modules;
+  imports = lib.filesystem.listFilesRecursive ./modules;
 
   home.username = "default";
   home.homeDirectory = "/home/default";

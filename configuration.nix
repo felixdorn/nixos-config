@@ -47,6 +47,14 @@ args @ { inputs, config, pkgs, ... }:
   };
   console.keyMap = "fr";
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    font-awesome
+    powerline-fonts
+    powerline-symbols
+    (nerdfonts.override { fonts = [ "Hack" "NerdFontsSymbolsOnly" ]; })
+  ];
+
   # Printing
   services.printing.enable = true;
 

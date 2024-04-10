@@ -1,17 +1,20 @@
 {
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager = {
+  inputs.home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
+  inputs.sops-nix = {
       url = "github:Mic92/sops-nix";        
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
+
+  inputs.nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   outputs = {nixpkgs, ...} @ inputs:
   {

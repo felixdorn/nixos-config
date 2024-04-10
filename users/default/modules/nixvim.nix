@@ -1,5 +1,8 @@
-{ pkgs, ... }: {
- programs.nixvim = {
+{ pkgs, inputs, ... }: {
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+  ];
+  programs.nixvim = {
    enable = true;
 
    viAlias = true;
@@ -59,8 +62,9 @@
 	};
 	};
      };
+     };
 
-        keymaps = [
+   keymaps = [
     {
       action = "<cmd>Telescope live_grep<CR>";
       key = "<leader>g";
@@ -71,5 +75,4 @@
     }
     ];
    };
- };
-};
+}
