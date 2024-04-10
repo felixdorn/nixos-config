@@ -20,5 +20,8 @@
     neofetch # I use ~Arch~ NixOS, btw
     ripgrep
     unzip # for the x alias to work
+    wbg
   ];
+
+  xdg.configFile."wallpaper.jpg".source = ./data/wallpaper.jpg;
 }

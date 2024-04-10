@@ -31,7 +31,15 @@ args @ { inputs, config, pkgs, ... }: {
     LC_TIME = "fr_FR.UTF-8";
   };
 
-  # X11
+  # GUI
+  services.xserver = {
+    enable = true;
+
+    displayManager.sddm = { 
+      enable = true;
+      wayland.enable = true;
+    };
+  };
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   xdg.portal.enable = true;
