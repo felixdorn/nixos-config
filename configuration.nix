@@ -1,21 +1,17 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-args @ { inputs, config, pkgs, ... }:
-
-{
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./os/secrets.nix	
-    ];
+args @ { inputs, config, pkgs, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ./os/secrets.nix	
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices."luks-26ff45a1-116c-4196-80ec-0cb8c595c5d6".device = "/dev/disk/by-uuid/26ff45a1-116c-4196-80ec-0cb8c595c5d6";
   
+  # Docker
+  virtualisation.docker.enable = true;
+
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -36,9 +32,10 @@ args @ { inputs, config, pkgs, ... }:
   };
 
   # X11
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  programs.hyprland.enable = true;
+  programs.hyprland.xwayland.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Keyboard
   services.xserver.xkb = {
@@ -96,12 +93,6 @@ args @ { inputs, config, pkgs, ... }:
       )
     );
   };
-
-  # Automatic login
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "default";
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
 
   # System
   environment.systemPackages = with pkgs; [ neovim git ];
