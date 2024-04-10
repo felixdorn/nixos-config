@@ -74,7 +74,14 @@
   # Home Manager
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = builtins.listToAttrs (map (u: { name = u; value = import ./users/${u}.nix; }) (builtins.attrNames config.users.users));
+    users = builtins.listToAttrs (map 
+      (user: { name = user; value = import ./users/${user}; })
+      (
+        builtins.filter 
+	  (user: config.users.users.${user}.isNormalUser)
+	  (builtins.attrNames config.users.users)
+      )
+     );
   };
 
   # Automatic login
