@@ -106,16 +106,16 @@
 	  "$mainMod, agrave, workspace, 10"
 
 # Move active window to a workspace with mainMod + SHIFT + [0-9]
-	  "$mainMod SHIFT, ampersand, movetoworkspace, 1"
-	  "$mainMod SHIFT, eacute, movetoworkspace, 2"
-	  "$mainMod SHIFT, quotedbl, movetoworkspace, 3"
-	  "$mainMod SHIFT, apostrophe, movetoworkspace, 4"
-	  "$mainMod SHIFT, parenleft, movetoworkspace, 5"
-	  "$mainMod SHIFT, minus, movetoworkspace, 6"
-	  "$mainMod SHIFT, egrave, movetoworkspace, 7"
-	  "$mainMod SHIFT, underscore, movetoworkspace, 8"
-	  "$mainMod SHIFT, ccedilla, movetoworkspace, 9"
-	  "$mainMod SHIFT, agrave, movetoworkspace, 10"
+	  "$mainMod SHIFT, ampersand, movetoworkspacesilent, 1"
+	  "$mainMod SHIFT, eacute, movetoworkspacesilent, 2"
+	  "$mainMod SHIFT, quotedbl, movetoworkspacesilent, 3"
+	  "$mainMod SHIFT, apostrophe, movetoworkspacesilent, 4"
+	  "$mainMod SHIFT, parenleft, movetoworkspacesilent, 5"
+	  "$mainMod SHIFT, minus, movetoworkspacesilent, 6"
+	  "$mainMod SHIFT, egrave, movetoworkspacesilent, 7"
+	  "$mainMod SHIFT, underscore, movetoworkspacesilent, 8"
+	  "$mainMod SHIFT, ccedilla, movetoworkspacesilent, 9"
+	  "$mainMod SHIFT, agrave, movetoworkspacesilent, 10"
 
 # Bind functions key to their respective function
 	  ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
@@ -143,7 +143,10 @@
       ];
 
       windowrulev2 = [
-	"noinitialfocus,class:^jetbrains-(?!toolbox),floating:1"
+	"noinitialfocus, class:^jetbrains-(?!toolbox),floating:1"
+	"stayfocused,class:(Rofi)"
+	"forceinput,class:(Rofi)"
+	"pin,class:(Rofi)"
       ];
     };
   };
