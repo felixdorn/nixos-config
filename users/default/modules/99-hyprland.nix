@@ -1,11 +1,52 @@
 { pkgs, ... }: {
+  home.packages = with pkgs; [
+# hyprpicker -- not mature enough
+    hypridle
+    wl-clipboard
+  ];
+
+  xdg.configFile."hypr/hypridle.conf".text = ''
+    general {
+      before_sleep_cmd = loginctl lock-session    # lock before suspend.
+	after_sleep_cmd = ${pkgs.hyprland}/bin/hyprctl dispatch dpms on  # to avoid having to press a key twice to turn on the display.
+    }
+
+  listener {
+    timeout = 150                                # 2.5min.
+      on-timeout = ${pkgs.brightnessctl}/bin/brightnessctl -s set 10         # set monitor backlight to minimum, avoid 0 on OLED monitor.
+      on-resume = ${pkgs.brightnessctl}/bin/brightnessctl -r                 # monitor backlight restore.
+  }
+
+  listener { 
+    timeout = 150                                          # 2.5min.
+      on-timeout = ${pkgs.brightnessctl}/bin/brightnessctl -sd rgb:kbd_backlight set 0 # turn off keyboard backlight.
+      on-resume = ${pkgs.brightnessctl}/bin/brightnessctl -rd rgb:kbd_backlight        # turn on keyboard backlight.
+  }
+
+  listener {
+    timeout = 300                                 # 5min
+      on-timeout = loginctl lock-session            # lock screen when timeout has passed
+  }
+
+  listener {
+    timeout = 330                                 # 5.5min
+      on-timeout = ${pkgs.hyprland}/bin/hyprctl dispatch dpms off        # screen off when timeout has passed
+      on-resume = ${pkgs.hyprland}/bin/hyprctl dispatch dpms on          # screen on when activity is detected after timeout has fired.
+  }
+
+  listener {
+    timeout = 1800                                # 30min
+      on-timeout = systemctl suspend                # suspend pc
+  }
+  '';
+
   wayland.windowManager.hyprland = {
     enable = true;
 
     settings = {
       env = [
 	"XCURSOR_SIZE,24"
-	"QT_QPA_PLATFORMTHEME,qt5ct"
+	  "QT_QPA_PLATFORMTHEME,qt5ct"
       ];
 
 
@@ -103,16 +144,13 @@
 	  "$mainMod SHIFT, agrave, movetoworkspacesilent, 10"
 
 # Bind functions key to their respective function
-	  ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-	  ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 2 @DEFAULT_AUDIO_SINK@ 5%+"
-	  ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+	  ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+	  ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 2 @DEFAULT_AUDIO_SINK@ 5%+"
+	  ", XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
-	  ", XF86AudioPlay, exec, playerctl play-pause"
-	  ", XF86AudioNext, exec, playerctl next"
-	  ", XF86AudioPrev, exec, playerctl previous"
-
-# Clipboard manager binds
-	  "SUPER SHIFT, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+	  ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+	  ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+	  ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
 	  ];
 
       bindm = [
@@ -121,16 +159,17 @@
       ];
 
       exec-once = [
-        "eval $(gnome-keyring-daemon --start --components pkcs11,secrets,ssh)"
-        "wbg ~/.config/wallpaper.jpg"
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+	"eval $(gnome-keyring-daemon --start --components pkcs11,secrets,ssh)"
+	  "${pkgs.wbg}/bin/wbg ~/.config/wallpaper.jpg"
+	  "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
+	  "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
       ];
 
       windowrulev2 = [
 	"noinitialfocus, class:^jetbrains-(?!toolbox),floating:1"
-      "workspace 3, class:^(Spotify)$"
+	  "workspace 3, class:^(Spotify)$"
       ];
     };
   };
-}
+  services.cliphist.enable = true; 
+	       }

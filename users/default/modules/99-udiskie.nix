@@ -1,11 +1,9 @@
 { pkgs, ... }: {
+  # Don't forget that udisks2 is enabled
+  # in your system configuration for udiskie to work
   services.udiskie = {
     automount = true;
     enable = true;
     notify = true;
   };
-
-  # udiskie requires the Udisk2 DBus service
-  # which does not exist by default
-  services.udisks2.enable = true; 
 }

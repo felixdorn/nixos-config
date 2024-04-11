@@ -25,11 +25,12 @@ args @ { pkgs, config, inputs, lib, ... }:
     wbg
     pavucontrol
   ] ++ (builtins.map
-    (pkg: import pkg { inherit pkgs; } )
-    (lib.filesystem.listFilesRecursive ./packages)
+    (script: import script { inherit pkgs; })
+    (lib.filesystem.listFilesRecursive ./scripts)
   );
 
   xdg.configFile."wallpaper.jpg".source = ./data/wallpaper.jpg;
+  home.file.".npmrc".source = ./data/.npmrc;
 
   home.sessionVariables = {
     EDITOR = "nvim";

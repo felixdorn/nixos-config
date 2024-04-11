@@ -82,6 +82,9 @@ args @ { inputs, config, pkgs, ... }: {
   # PC/SD Daemon (to support CCID)
   services.pcscd.enable = true;
 
+  # udisksd  (to query and manipulate storage devices)
+  services.udisks2.enable = true; 
+
   # Users
   users.users.default = {
     home = "/home/default";

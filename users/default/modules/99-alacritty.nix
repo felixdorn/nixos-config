@@ -8,8 +8,10 @@
 	program = "${config.programs.zsh.package}/bin/zsh";
 	args = ["--login"];
       };
-      
-      env = config.home.sessionVariables;
+     
+      # home.sessionVariables allows integers, booleans, etc.
+      # and programs.alacritty.env accepts only strings
+      env = builtins.mapAttrs (name: value: builtins.toString value) config.home.sessionVariables;
 
       window = {
         padding = { y = 0; x = 0; };

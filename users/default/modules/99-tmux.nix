@@ -1,28 +1,45 @@
 { pkgs, ... }: {
   programs.tmux = {
     enable = true;
+    
+    prefix = "C-a";
+    keyMode = "vi";
+    baseIndex = 1;
+    mouse = true;
+    clock24 = true;
+
+    # By default, typing C-bn does not work because 
+    # tmux is waiting for an escape sequence,
+    # setting escape-time to 1 fixes that. 
+    escapeTime = 1;
 
     extraConfig = ''
-      set -g base-index 1
+      source-file ${./../data/tmux-gruvbox-dark.conf}
 
-      # By default, typing C-bn does not work because 
-      # tmux is waiting for an escape sequence,
-      # setting escape-time to 0 fixes that. 
-      set -s escape-time 0
+      unbind %
+      unbind T
+      bind-key -T prefix C-T clock-mode 
+      bind-key -T prefix t split-window -h
+      bind-key -T prefix = split-window -v
 
-      bind r source-file ~/.tmux.conf
-      bind c new-window -c "#{pane_current_path}"     
-      
-      set-window-option -g mode-keys vi
+      bind-key -T prefix r source-file ~/.config/tmux/tmux.conf\; display "Reloaded!"
+      bind-key -T prefix c new-window -c "#{pane_current_path}"     
 
-      ${builtins.readFile ./../data/tmux-gruvbox-dark.conf}
+      bind-key -n M-1 select-window -t :=1
+      bind-key -n M-2 select-window -t :=2 
+      bind-key -n M-3 select-window -t :=3
+      bind-key -n M-4 select-window -t :=4
+      bind-key -n M-5 select-window -t :=5
+      bind-key -n M-6 select-window -t :=6
+      bind-key -n M-7 select-window -t :=7
+      bind-key -n M-8 select-window -t :=8
+      bind-key -n M-9 select-window -t :=9
    '';
 
     plugins = with pkgs.tmuxPlugins; [
-      resurrect
+      resurrect	
       continuum
     ];
   };
-
 
 }
