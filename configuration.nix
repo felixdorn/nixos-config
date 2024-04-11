@@ -49,6 +49,7 @@ args @ { inputs, config, pkgs, ... }: {
   services.xserver.xkb = {
     layout = "fr";
     variant = "";
+    options = "eurosign:e";
   };
   console.keyMap = "fr";
 

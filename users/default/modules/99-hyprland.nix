@@ -38,6 +38,7 @@
 
       decoration.rounding = 0;
       decoration.drop_shadow = false;
+      decoration.blur.enabled = false;
 
       animations.enabled = "no";
 

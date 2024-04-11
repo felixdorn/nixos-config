@@ -25,6 +25,10 @@
       switchq = "sudo nixos-rebuild switch --fast --flake .#default";
     };
 
+    initExtra = ''
+      bindkey -s '^T' '^[utmux-sessionizer\n'
+    '';
+
     oh-my-zsh = {
       enable = true;
 
