@@ -25,4 +25,6 @@
      github = { user = "felixdorn"; };
    };
   };
+
+  programs.gh.enable = true;
 }
