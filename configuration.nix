@@ -96,6 +96,7 @@ args @ { inputs, config, pkgs, ... }: {
     extraSpecialArgs = { inherit inputs; };
     users = let common = {
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.config.allowUnfreePredicate = v: true;
     }; in builtins.listToAttrs (map 
       (user: { 
           name = user;
@@ -120,4 +121,5 @@ args @ { inputs, config, pkgs, ... }: {
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = v: true;
 }

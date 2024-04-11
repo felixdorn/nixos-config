@@ -30,5 +30,6 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     TERM = "alacritty";
+    NIXPKGS_ALLOW_UNFREE = "1"; # Sins ahead.
   };
 }

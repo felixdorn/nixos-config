@@ -1,11 +1,19 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   programs.alacritty = {
     enable = true;
     settings = {
+      shell = {
+	program = "${config.programs.zsh.package}/bin/zsh";
+	args = ["--login"];
+      };
+      
+      env = config.home.sessionVariables;
+
       window = {
-        padding = { y = 5; x = 5; };
+        padding = { y = 0; x = 0; };
+	dynamic_padding = false;
 
 	opacity = 1;
       };
@@ -16,6 +24,10 @@
 	normal.family = "Hack Nerd Font";
 	bold.family = normal.family;
 	italic.family = normal.family;
+      };
+
+      mouse = {
+	hide_when_typing = true;
       };
     };
   };

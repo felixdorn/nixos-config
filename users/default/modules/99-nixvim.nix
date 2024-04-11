@@ -1,7 +1,9 @@
 { pkgs, inputs, ... }: {
+  
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
   ];
+
   programs.nixvim = {
    enable = true;
 
@@ -10,7 +12,8 @@
 
    colorschemes.gruvbox.enable = true;
 
-   options = {
+   opts = {
+     number = true;
      relativenumber = true;
      shiftwidth = 2;
    };
@@ -37,6 +40,16 @@
 	 tailwindcss.enable = true;
 	 phpactor.enable = true;
 	 cssls.enable = true;
+	 sqls.enable = true;
+	 yamlls.enable = true;
+	 volar.enable = true;
+	 rust-analyzer = {
+	  enable = true;
+	  installCargo = true;
+	  installRustc = true;
+	 };
+	 nixd.enable = true;
+	 dockerls.enable = true;
 	 bashls.enable = true;
 	 gopls.enable = true;
 	 jsonls.enable = true;
