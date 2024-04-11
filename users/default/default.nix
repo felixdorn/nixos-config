@@ -9,7 +9,7 @@
     inputs.sops-nix.homeManagerModules.sops
   ] ++ before ++ (
     builtins.filter
-    (b: builtins.elem b before)
+    (b: !builtins.elem b before)
     (lib.filesystem.listFilesRecursive ./modules)
   );
 

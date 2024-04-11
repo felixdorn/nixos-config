@@ -74,6 +74,10 @@ args @ { inputs, config, pkgs, ... }: {
     pulse.enable = true;
  };
 
+  # Default shell
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   # PC/SD Daemon (to support CCID)
   services.pcscd.enable = true;
 
@@ -82,7 +86,7 @@ args @ { inputs, config, pkgs, ... }: {
     home = "/home/default";
     createHome = true;
     isNormalUser = true;
-
+    shell = pkgs.zsh;
     description = "Félix Dorn";
     extraGroups = [ "networkmanager" "wheel" ];
   };

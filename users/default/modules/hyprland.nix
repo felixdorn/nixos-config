@@ -144,9 +144,7 @@
 
       windowrulev2 = [
 	"noinitialfocus, class:^jetbrains-(?!toolbox),floating:1"
-	"stayfocused,class:(Rofi)"
-	"forceinput,class:(Rofi)"
-	"pin,class:(Rofi)"
+      "workspace 3, class:^(Spotify)$"
       ];
     };
   };
