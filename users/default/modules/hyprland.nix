@@ -82,7 +82,7 @@
 	  "$mainMod, Q, killactive"
 	  "$mainMod SHIFT, Q, exit"
 	  "$mainMod, E, togglesplit"
-	  "$mainMod, D, exec, ${pkgs.rofi}/bin/rofi -show drun"
+	  "$mainMod, D, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun"
 	  "$mainMod, V, togglefloating"
 	  "$mainMod, F, fullscreen"
 	  "$mainMod, P, pseudo"

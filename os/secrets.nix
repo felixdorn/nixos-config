@@ -2,7 +2,10 @@
   sops =  {
     defaultSopsFile = ./../secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile = "/home/default/.config/sops/age/keys.txt";
+    
+    age.generateKey = true;
+    age.sshKeyPaths = [ "/home/default/.ssh/id_ed25519" ];
+    age.keyFile = "/var/lib/sops/keys.txt";
   };
 
   environment.systemPackages = [ pkgs.sops ];

@@ -1,7 +1,17 @@
 { pkgs, config, inputs, lib, ... }:
 
 {
-  imports = lib.filesystem.listFilesRecursive ./modules;
+  imports = let 
+    before = [ 
+      ./modules/secrets.nix 
+    ];
+  in [
+    inputs.sops-nix.homeManagerModules.sops
+  ] ++ before ++ (
+    builtins.filter
+    (b: builtins.elem b before)
+    (lib.filesystem.listFilesRecursive ./modules)
+  );
 
   home.username = "default";
   home.homeDirectory = "/home/default";

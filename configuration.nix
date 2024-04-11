@@ -74,6 +74,9 @@ args @ { inputs, config, pkgs, ... }: {
     pulse.enable = true;
  };
 
+  # PC/SD Daemon (to support CCID)
+  services.pcscd.enable = true;
+
   # Users
   users.users.default = {
     home = "/home/default";
