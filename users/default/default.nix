@@ -1,4 +1,4 @@
-{ pkgs, config, inputs, lib, ... }:
+args @ { pkgs, config, inputs, lib, ... }:
 
 {
   imports = [
@@ -23,7 +23,11 @@
     ripgrep
     unzip # for the x alias to work
     wbg
-  ];
+    pavucontrol
+  ] ++ (builtins.map
+    (pkg: import pkg { inherit pkgs; } )
+    (lib.filesystem.listFilesRecursive ./packages)
+  );
 
   xdg.configFile."wallpaper.jpg".source = ./data/wallpaper.jpg;
 
