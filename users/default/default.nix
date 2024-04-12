@@ -29,7 +29,6 @@ args @ { pkgs, config, inputs, lib, ... }:
     (lib.filesystem.listFilesRecursive ./scripts)
   );
 
-  xdg.configFile."wallpaper.jpg".source = ./data/wallpaper.jpg;
   home.file.".npmrc".source = ./data/.npmrc;
 
   home.sessionVariables = {

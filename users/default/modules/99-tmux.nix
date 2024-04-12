@@ -17,7 +17,6 @@
       source-file ${./../data/tmux-gruvbox-dark.conf}
 
       unbind %
-      unbind T
       bind-key -T prefix C-T clock-mode 
       bind-key -T prefix t split-window -h
       bind-key -T prefix = split-window -v

@@ -3,6 +3,7 @@
 # hyprpicker -- not mature enough
     hypridle
     wl-clipboard
+    swww
   ];
 
   xdg.configFile."hypr/hypridle.conf".text = ''
@@ -159,15 +160,15 @@
       ];
 
       exec-once = [
-	"eval $(gnome-keyring-daemon --start --components pkcs11,secrets,ssh)"
-	  "${pkgs.wbg}/bin/wbg ~/.config/wallpaper.jpg"
-	  "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
-	  "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
+	"${pkgs.swww}/bin/swww-daemon"
+	"${pkgs.swww}/bin/swww img ~/.config/wallpapers"
+	"${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
+	"${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
       ];
 
       windowrulev2 = [
 	"noinitialfocus, class:^jetbrains-(?!toolbox),floating:1"
-	  "workspace 3, class:^(Spotify)$"
+	"workspace 3, class:^(Spotify)$"
       ];
     };
   };
