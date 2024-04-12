@@ -37,6 +37,7 @@ args @ { inputs, config, pkgs, ... }: {
 
     displayManager.sddm = { 
       enable = true;
+      theme = "${import ./packages/sddm-dark-light.nix { inherit pkgs; }}"; 
       wayland.enable = true;
     };
   };
@@ -44,6 +45,7 @@ args @ { inputs, config, pkgs, ... }: {
   programs.hyprland.xwayland.enable = true;
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
 
   # Keyboard
   services.xserver.xkb = {
