@@ -35,11 +35,7 @@ args @ { inputs, config, pkgs, ... }: {
   services.xserver = {
     enable = true;
 
-    displayManager.sddm = { 
-      enable = true;
-      theme = "${import ./packages/sddm-dark-light.nix { inherit pkgs; }}"; 
-      wayland.enable = true;
-    };
+
   };
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
@@ -117,7 +113,10 @@ args @ { inputs, config, pkgs, ... }: {
   };
 
   # System
-  environment.systemPackages = with pkgs; [ neovim git ];
+  environment.systemPackages = with pkgs; [ 
+    neovim 
+    git 
+  ];
   system.stateVersion = "23.11"; # Did you read the comment?
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
