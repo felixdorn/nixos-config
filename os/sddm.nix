@@ -6,9 +6,11 @@
     libsForQt5.qt5.qtquickcontrols2
     libsForQt5.qt5.qtsvg
   ];
+
   services.xserver.displayManager.sddm = { 
     enable = true;
-    theme = "${import ./packages/sddm-sugar-dark.nix { inherit pkgs; }}"; 
+    autoNumlock = true;
+    theme = "${import ./../packages/sddm-sugar-dark.nix { inherit pkgs; }}"; 
     wayland.enable = true;
   };
 }

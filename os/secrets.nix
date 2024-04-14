@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   sops =  {
-    defaultSopsFile = ./../secrets.yaml;
+    defaultSopsFile = ./../secrets/default.yaml;
     defaultSopsFormat = "yaml";
     
     age.generateKey = true;

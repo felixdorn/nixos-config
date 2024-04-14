@@ -1,8 +1,7 @@
-args @ { inputs, config, pkgs, ... }: {
+args @ { inputs, lib, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./os/secrets.nix	
-  ];
+  ] ++ (lib.filesystem.listFilesRecursive ./os);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -62,6 +61,16 @@ args @ { inputs, config, pkgs, ... }: {
   # Printing
   services.printing.enable = true;
 
+  # TLP & Thermald
+  services.thermald.enable = true;
+  services.tlp = {
+    enable = true;
+
+    settings = {
+      TLS_ENABLE = true;
+    };
+  };
+
   # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -84,12 +93,16 @@ args @ { inputs, config, pkgs, ... }: {
   services.udisks2.enable = true; 
 
   # Users
+  sops.secrets."default/password"=  {
+    neededForUsers = true;
+  };
   users.users.default = {
     home = "/home/default";
     createHome = true;
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "Félix Dorn";
+    hashedPasswordFile = config.sops.secrets."default/password".path;
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
@@ -126,5 +139,4 @@ args @ { inputs, config, pkgs, ... }: {
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = v: true;
 }
