@@ -26,5 +26,12 @@
 	 inputs.home-manager.nixosModules.default
       ];
     };
+
+    templates = {
+      php = {
+	path = ./devshells/php;
+	description = "PHP";
+      };
+    };
   };
 }
