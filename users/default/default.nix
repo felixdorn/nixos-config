@@ -24,6 +24,7 @@ args @ { pkgs, config, inputs, lib, ... }:
     unzip # for the x alias to work
     wbg
     pavucontrol
+    jetbrains.goland
   ] ++ (builtins.map
     (script: import script { inherit pkgs; })
     (lib.filesystem.listFilesRecursive ./scripts)

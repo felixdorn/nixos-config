@@ -81,11 +81,11 @@
 	  "$mainMod, F, fullscreen"
 	  "$mainMod, P, pseudo"
 
-# Move focus with mainMod + arrow keys
-	  "$mainMod, left, movefocus, l"
-	  "$mainMod, right, movefocus, r"
-	  "$mainMod, up, movefocus, u"
-	  "$mainMod, down, movefocus, d"
+# Move focus with HJKL
+	  "$mainMod, h, movefocus, l"
+	  "$mainMod, l, movefocus, r"
+	  "$mainMod, k, movefocus, u"
+	  "$mainMod, j, movefocus, d"
 
 # Move active window to a workspace with mainMood + SHIFT + "[0-9]"
 	  "$mainMod, ampersand, workspace, 1"
