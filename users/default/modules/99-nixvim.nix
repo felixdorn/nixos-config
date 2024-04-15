@@ -17,8 +17,22 @@
     opts = {
       number = true;
       relativenumber = true;
-      shiftwidth = 2;
+      shiftwidth = 4;
+      tabstop = 4;
+      softtabstop = 4;
+      scrolloff = 8;
+      expandtab = true;
+      smartindent = true;
     };
+
+    autoCmd = [
+      {
+	event = "TextYankPost";
+	group = "highlight_yank";
+	command = "silent! lua vim.highlight.on_yank{higroup='Search', timeout=200}";
+      }
+    ];
+    autoGroups.highlight_yank.clear = true;
 
     globals.mapleader = " ";
 
