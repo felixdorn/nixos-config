@@ -31,11 +31,7 @@ args @ { inputs, lib, config, pkgs, ... }: {
   };
 
   # GUI
-  services.xserver = {
-    enable = true;
-
-
-  };
+  services.xserver.enable = true;
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   xdg.portal.enable = true;
@@ -65,10 +61,7 @@ args @ { inputs, lib, config, pkgs, ... }: {
   services.thermald.enable = true;
   services.tlp = {
     enable = true;
-
-    settings = {
-      TLS_ENABLE = true;
-    };
+    settings.TLS_ENABLE = true;
   };
 
   # Sound
@@ -103,7 +96,7 @@ args @ { inputs, lib, config, pkgs, ... }: {
     shell = pkgs.zsh;
     description = "Félix Dorn";
     hashedPasswordFile = config.sops.secrets."default/password".path;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
   # Home Manager
