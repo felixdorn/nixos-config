@@ -74,7 +74,6 @@
           find_files = {
             hidden = true;
             sorting_strategy = "ascending";
-            layout_strategy = "vertical";
 
             layout_config = {
               width = 0.9;
@@ -118,9 +117,18 @@
     };
 
     plugins.lualine.enable = true;
-    plugins.oil.enable = true;
+    plugins.oil = {
+      enable = true;
+      float = {
+        padding = 10;
+      };
+    };
     plugins.luasnip.enable = true;
-    plugins.nvim-colorizer.enable = true;
+    plugins.nvim-colorizer = {
+      enable = true;
+      userDefaultOptions.names = false;
+    };
+    plugins.gitsigns.enable = true;
 
     plugins.lsp = {
       enable = true;
@@ -292,15 +300,39 @@
       };
     };
 
+    plugins.trouble = {
+      enable = true;
+      # TODO: Eventually bring the keybindings
+    };
+
+    # URL: <https://github.com/folke/which-key.nvim>
+    plugins.which-key = {
+      enable = true;
+      plugins.spelling.enabled = false;
+    };
+
+    # URL: <https://github.com/m4xshen/hardtime.nvim>
+    plugins.hardtime.enable = true;
+
     plugins.cmp = {
       enable = true;
       autoEnableSources = true;
       settings.sources = [
+        {
+          name = "copilot";
+          priority = 100;
+        }
         {name = "nvim_lsp";}
         {name = "path";}
         {name = "buffer";}
         {name = "luasnip";}
       ];
+
+      settings.mapping = {
+        "<CR>" = "cmp.mapping.confirm({ select = true })";
+        "<tab>" = "cmp.mapping.select_next_item()";
+        "<s-tab>" = "cmp.mapping.select_prev_item()";
+      };
     };
 
     keymaps = [
@@ -311,8 +343,9 @@
       }
       {
         mode = "n";
-        key = "<leader>pv";
-        action = "<CMD>Oil<CR>";
+        key = "<leader>fs";
+        action = "require('oil').open_float";
+        lua = true;
         options.desc = "Open filetree";
       }
       {

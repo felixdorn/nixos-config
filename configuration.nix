@@ -1,13 +1,21 @@
-args @ { inputs, lib, config, pkgs, ... }: {
-  imports = [
-    ./hardware-configuration.nix
-  ] ++ (lib.filesystem.listFilesRecursive ./os);
+args @ {
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  imports =
+    [
+      ./hardware-configuration.nix
+    ]
+    ++ (lib.filesystem.listFilesRecursive ./os);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices."luks-26ff45a1-116c-4196-80ec-0cb8c595c5d6".device = "/dev/disk/by-uuid/26ff45a1-116c-4196-80ec-0cb8c595c5d6";
-  
+
   # Docker
   virtualisation.docker.enable = true;
 
@@ -35,8 +43,7 @@ args @ { inputs, lib, config, pkgs, ... }: {
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
   # Keyboard
   services.xserver.xkb = {
@@ -51,7 +58,8 @@ args @ { inputs, lib, config, pkgs, ... }: {
     font-awesome
     powerline-fonts
     powerline-symbols
-    (nerdfonts.override { fonts = [ "Hack" "NerdFontsSymbolsOnly" ]; })
+    jetbrains-mono
+    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
   # Printing
@@ -73,7 +81,26 @@ args @ { inputs, lib, config, pkgs, ... }: {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
- };
+  };
+
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings.General = {
+      Enable = "Source,Sink,Media,Socket";
+      Experimental = true;
+    };
+  };
+  services.blueman.enable = true;
+  systemd.user.services.mpris-proxy = {
+    # Support Bluetooth headset buttons to control media players
+    description = "Mpris proxy";
+    after = ["network.target" "sound.target"];
+    wantedBy = ["default.target"];
+    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+  };
+  hardware.enableAllFirmware = true;
 
   # Default shell
   programs.zsh.enable = true;
@@ -83,10 +110,10 @@ args @ { inputs, lib, config, pkgs, ... }: {
   services.pcscd.enable = true;
 
   # udisksd  (to query and manipulate storage devices)
-  services.udisks2.enable = true; 
+  services.udisks2.enable = true;
 
   # Users
-  sops.secrets."default/password"=  {
+  sops.secrets."default/password" = {
     neededForUsers = true;
   };
   users.users.default = {
@@ -96,39 +123,49 @@ args @ { inputs, lib, config, pkgs, ... }: {
     shell = pkgs.zsh;
     description = "Félix Dorn";
     hashedPasswordFile = config.sops.secrets."default/password".path;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "lp"];
   };
 
   # Home Manager
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = let common = {
-      nixpkgs.config.allowUnfree = true;
-      nixpkgs.config.allowUnfreePredicate = v: true;
-    }; in builtins.listToAttrs (map 
-      (user: { 
+    extraSpecialArgs = {inherit inputs;};
+    users = let
+      common = {
+        nixpkgs.config.allowUnfree = true;
+        nixpkgs.config.allowUnfreePredicate = v: true;
+      };
+    in
+      builtins.listToAttrs (
+        map
+        (user: {
           name = user;
-	  value = ((import ./users/${user}) args) // common;
-      })
-      (
-        builtins.filter 
-	  (user: config.users.users.${user}.isNormalUser)
-	  (builtins.attrNames config.users.users)
-      )
-    );
+          value = ((import ./users/${user}) args) // common;
+        })
+        (
+          builtins.filter
+          (user: config.users.users.${user}.isNormalUser)
+          (builtins.attrNames config.users.users)
+        )
+      );
   };
 
+  # Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
   # System
-  environment.systemPackages = with pkgs; [ 
-    neovim 
-    git 
+  environment.systemPackages = with pkgs; [
+    neovim
+    git
   ];
   system.stateVersion = "23.11"; # Did you read the comment?
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
-  
+
   # Nix
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;

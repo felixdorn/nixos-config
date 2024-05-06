@@ -1,35 +1,39 @@
-{ pkgs, config, ... }:
-
 {
+  pkgs,
+  config,
+  ...
+}: {
   programs.alacritty = {
     enable = true;
     settings = {
       shell = {
-	program = "${config.programs.zsh.package}/bin/zsh";
-	args = ["--login"];
+        program = "${config.programs.zsh.package}/bin/zsh";
+        args = ["--login"];
       };
-     
+
       # home.sessionVariables allows integers, booleans, etc.
       # and programs.alacritty.env accepts only strings
       env = builtins.mapAttrs (name: value: builtins.toString value) config.home.sessionVariables;
 
       window = {
-        padding = { y = 0; x = 0; };
-	dynamic_padding = false;
+        padding = {
+          y = 0;
+          x = 0;
+        };
 
-	opacity = 1;
+        opacity = 1;
       };
 
       font = rec {
-        size = 12;
+        size = 11;
 
-	normal.family = "Hack Nerd Font";
-	bold.family = normal.family;
-	italic.family = normal.family;
+        normal.family = "Jetbrains Mono";
+        bold.family = normal.family;
+        italic.family = normal.family;
       };
 
       mouse = {
-	hide_when_typing = true;
+        hide_when_typing = true;
       };
     };
   };
