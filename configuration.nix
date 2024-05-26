@@ -106,6 +106,9 @@ args @ {
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
+  # Tailscale
+  services.tailscale.enable = true;
+
   # PC/SD Daemon (to support CCID)
   services.pcscd.enable = true;
 
@@ -149,12 +152,6 @@ args @ {
       );
   };
 
-  # Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
   # System
   environment.systemPackages = with pkgs; [
     neovim

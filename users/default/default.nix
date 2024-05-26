@@ -24,8 +24,11 @@ args @ {
         # whatsapp-for-linux
         # telegram-desktop
         libreoffice
+        slack
+        appimage-run
 
         yubikey-manager
+        protonvpn-cli_2
         bat
         fzf
         neofetch # I use ~Arch~ NixOS, btw
@@ -34,6 +37,7 @@ args @ {
         wbg
         pavucontrol
         jetbrains.goland
+        jetbrains.pycharm-professional
       ]
       ++ (
         builtins.map

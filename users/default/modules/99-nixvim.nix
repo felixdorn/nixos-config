@@ -119,8 +119,10 @@
     plugins.lualine.enable = true;
     plugins.oil = {
       enable = true;
-      float = {
-        padding = 10;
+      settings = {
+        float = {
+          padding = 10;
+        };
       };
     };
     plugins.luasnip.enable = true;
@@ -313,6 +315,12 @@
 
     # URL: <https://github.com/m4xshen/hardtime.nvim>
     plugins.hardtime.enable = true;
+
+    plugins.copilot-lua = {
+      enable = true;
+      suggestion = {enabled = false;};
+      panel = {enabled = false;};
+    };
 
     plugins.cmp = {
       enable = true;

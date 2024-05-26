@@ -25,7 +25,7 @@
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
       DisablePocket = true;
-      DisableFirefoxScreenshots = true;
+      DisableFirefoxScreenshots = false;
       DisableSetDesktopBackground = true;
       NoDefaultBookmarks = false;
       DisableProfileImport = true; # For purity
