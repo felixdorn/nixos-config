@@ -2,7 +2,7 @@
   home.packages = with pkgs; [
     # hyprpicker -- not mature enough
     wl-clipboard
-    swww
+    hyprpaper
   ];
 
   wayland.windowManager.hyprland = {
@@ -119,7 +119,8 @@
         ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
         ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
         ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
-        ", F12, exec, screenshot"
+        ", Print, exec, screenshot"
+        "$mainMod SHIFT,L, exec,swaylock"
       ];
 
       bindm = [
@@ -128,8 +129,7 @@
       ];
 
       exec-once = [
-        "${pkgs.swww}/bin/swww-daemon"
-        "__swww-dynamic-wallpaper"
+        "${pkgs.hyprpaper}/bin/hyprpaper"
         "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
         "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
       ];
@@ -141,4 +141,12 @@
     };
   };
   services.cliphist.enable = true;
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = ["${./../data/wallpapers/wallpaper.jpg}"];
+      wallpaper = [",${./../data/wallpapers/wallpaper.jpg}"];
+    };
+  };
 }

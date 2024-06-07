@@ -18,6 +18,9 @@ args @ {
 
   # Docker
   virtualisation.docker.enable = true;
+  systemd.network.wait-online.ignoredInterfaces = [
+    "docker0"
+  ];
 
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
@@ -39,22 +42,18 @@ args @ {
   };
 
   # GUI
-  services.xserver.enable = true;
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
-  # Keyboard
-  services.xserver.xkb = {
-    layout = "fr";
-    variant = "";
-    options = "eurosign:e";
-  };
   console.keyMap = "fr";
 
   # Fonts
   fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
     font-awesome
     powerline-fonts
     powerline-symbols
@@ -154,6 +153,9 @@ args @ {
 
   # System
   environment.systemPackages = with pkgs; [
+    xdg-utils
+    gnome.seahorse
+    gnome.nautilus
     neovim
     git
   ];
@@ -166,4 +168,5 @@ args @ {
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
+  services.gnome.gnome-keyring.enable = true;
 }

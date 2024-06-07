@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   inputs,
   ...
 }: {
@@ -241,7 +242,7 @@
           };
         };
         jsonls.enable = true;
-        emmet_ls.enable = true;
+        emmet-ls.enable = true;
       };
     };
 
@@ -352,8 +353,7 @@
       {
         mode = "n";
         key = "<leader>fs";
-        action = "require('oil').open_float";
-        lua = true;
+        action = config.nixvim.helpers.mkRaw "require('oil').open_float";
         options.desc = "Open filetree";
       }
       {

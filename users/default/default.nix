@@ -17,8 +17,11 @@ args @ {
     stateVersion = "23.11"; # Please read the comment before changing.
     packages = with pkgs;
       [
+        imagemagick
+        btop
         spotify
-        prismlauncher
+        feh
+        vlc
         # These naughty apps are glorified web pages, use a browser instead.
         # discord
         # whatsapp-for-linux
@@ -34,7 +37,6 @@ args @ {
         neofetch # I use ~Arch~ NixOS, btw
         ripgrep
         unzip # for the x alias to work
-        wbg
         pavucontrol
         jetbrains.goland
         jetbrains.pycharm-professional
@@ -44,6 +46,14 @@ args @ {
         (script: import script {inherit pkgs;})
         (lib.filesystem.listFilesRecursive ./scripts)
       );
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-pipewire-audio-capture
+    ];
   };
 
   home.file.".npmrc".source = ./data/.npmrc;
