@@ -64,6 +64,12 @@ args @ {
   # Printing
   services.printing.enable = true;
 
+  # GnuPG
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   # TLP & Thermald
   services.thermald.enable = true;
   services.tlp = {
@@ -169,4 +175,17 @@ args @ {
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
   services.gnome.gnome-keyring.enable = true;
+  services.dnsmasq = {
+    enable = true;
+    resolveLocalQueries = true;
+    settings = {
+      no-resolv = true;
+      server = [
+        "1.1.1.1"
+        "8.8.8.8"
+        "8.8.8.4"
+      ];
+      address = "/test/127.0.0.1";
+    };
+  };
 }
