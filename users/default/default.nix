@@ -17,6 +17,10 @@ args @ {
     stateVersion = "23.11"; # Please read the comment before changing.
     packages = with pkgs;
       [
+        openssl
+        dua
+        ungoogled-chromium
+        tealdeer
         imagemagick
         btop
         spotify
@@ -38,7 +42,6 @@ args @ {
         ripgrep
         unzip # for the x alias to work
         pavucontrol
-        jetbrains.goland
         jetbrains.pycharm-professional
       ]
       ++ (

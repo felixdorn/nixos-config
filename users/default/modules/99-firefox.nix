@@ -10,7 +10,7 @@
     profiles.default = {
       search = {
         force = true;
-        default = "DuckDuckGo";
+        default = "Kagi";
         engines = {
           "Google".metaData.hidden = true;
           "Bing".metaData.hidden = true;

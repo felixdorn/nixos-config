@@ -10,7 +10,9 @@
 
     settings = {
       monitor = [
-        ",highres,auto,1"
+        "eDP-1,2256x1504,0x0,1"
+        "DP-4,2560x1440,2256x0,1"
+        "DP-1,2560x1440,4816x0,1"
       ];
 
       env = [
@@ -123,6 +125,11 @@
         "$mainMod SHIFT,L, exec,swaylock"
       ];
 
+      bindl = [
+        ",switch:Lid Switch,exec,swaylock"
+        ",switch:Lid Switch,exec,${pkgs.playerctl}/bin/playerctl pause"
+      ];
+
       bindm = [
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
@@ -147,6 +154,38 @@
     settings = {
       preload = ["${./../data/wallpapers/wallpaper.jpg}"];
       wallpaper = [",${./../data/wallpapers/wallpaper.jpg}"];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        before_sleep_cmd = "loginctl lock-session";
+        lock_cmd = "${pkgs.swaylock-effects}/bin/swaylock";
+        unlock_cmd = "loginctl unlock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+      listener = [
+        {
+          timeout = 150; # 2.5 minutes
+          on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl set 10%";
+          on-resume = "${pkgs.brightnessctl}/bin/brightnessctl set 100%";
+        }
+        {
+          timeout = 1800; # 30 minutes
+          on-timeout = "${pkgs.swaylock-effects}/bin/swaylock";
+        }
+        {
+          timeout = 300; # 5 minutes
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyperctl dispatch dpms on";
+        }
+        {
+          timeout = 600; # 10 minutes
+          on-timeout = "systemctl suspend";
+        }
+      ];
     };
   };
 }

@@ -13,7 +13,7 @@
       effect-blur = "7x5";
       effect-vignette = "0.5:0.5";
       effect-greyscale = true;
-      grace = 2;
+      grace = 0;
       grace-no-mouse = true;
       grace-no-touch = true;
 

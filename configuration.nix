@@ -64,6 +64,12 @@ args @ {
   # Printing
   services.printing.enable = true;
 
+  # GnuPG
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   # TLP & Thermald
   services.thermald.enable = true;
   services.tlp = {
@@ -125,7 +131,7 @@ args @ {
     shell = pkgs.zsh;
     description = "Félix Dorn";
     hashedPasswordFile = config.sops.secrets."default/password".path;
-    extraGroups = ["networkmanager" "wheel" "docker" "lp"];
+    extraGroups = ["networkmanager" "wheel" "docker" "lp" "audio" "video"];
   };
 
   # Home Manager
@@ -169,4 +175,22 @@ args @ {
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
   services.gnome.gnome-keyring.enable = true;
+  services.dnsmasq = {
+    enable = true;
+    resolveLocalQueries = true;
+    settings = {
+      no-resolv = true;
+      server = [
+        "1.1.1.1"
+        "8.8.8.8"
+        "8.8.8.4"
+      ];
+      address = "/test/127.0.0.1";
+    };
+  };
+  services.hardware.bolt.enable = true;
+  services.fwupd.enable = true;
+  services.fwupd.extraRemotes = ["lvfs-testing"];
+  # Might be necessary once to make the update succeed
+  services.fwupd.uefiCapsuleSettings.DisableCapsuleUpdateOnDisk = true;
 }
