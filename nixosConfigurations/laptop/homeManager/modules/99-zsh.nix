@@ -8,6 +8,7 @@
     dotDir = ".config/zsh";
 
     shellAliases = {
+      firefox = "firefox-esr";
       ssh = "TERM=xterm-256color ssh"; # TERM=alacritty causes issues
       amend = "git commit --amend";
       cd = "z";

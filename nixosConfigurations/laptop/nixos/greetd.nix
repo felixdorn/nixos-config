@@ -5,12 +5,15 @@
     username = "default";
   in {
     enable = true;
-    settings = rec {
-      initial_session = {
+    settings = {
+      default_session = {
         command = "${tuigreet} --greeting 'Smile :)' --asterisks --remember --remember-user-session --time --cmd ${session}";
         user = "default";
       };
-      default_session = initial_session;
+      initial_session = {
+        command = session;
+        user = username;
+      };
     };
   };
 }

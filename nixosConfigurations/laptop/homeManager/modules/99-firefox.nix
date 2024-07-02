@@ -6,18 +6,7 @@
     };
   in {
     enable = true;
-
-    profiles.default = {
-      search = {
-        force = true;
-        default = "Kagi";
-        engines = {
-          "Google".metaData.hidden = true;
-          "Bing".metaData.hidden = true;
-          "Wikipedia (en)".metaData.hidden = true;
-        };
-      };
-    };
+    package = pkgs.firefox-esr;
 
     policies = {
       AppAutoUpdate = false;
@@ -27,13 +16,46 @@
       DisablePocket = true;
       DisableFirefoxScreenshots = false;
       DisableSetDesktopBackground = true;
-      NoDefaultBookmarks = false;
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      PasswordManagerEnabled = false;
       DisableProfileImport = true; # For purity
       DisableProfileRefresh = true;
       #ExtensionUpdate = false;
+      # Websites are reasonable nowadays.
+      PopupBlocking.Default = true;
+
+      SearchEngines = {
+        PreventInstalls = true;
+        Default = "Kagi";
+        Add = [
+          {
+            Name = "Kagi";
+            URLTemplate = "https://kagi.com/search?q={searchTerms}";
+            Alias = "kagi";
+            SuggestURLTemplate = "https://kagi.com/api/autosuggest?q={searchTerms}";
+            Description = "Kagi Search Engine";
+            IconURL = "https://kagi.com/favicon.ico";
+          }
+          {
+            Name = "Github Code";
+            Alias = "gc";
+            URLTemplate = "https://github.com/search?type=code&q={searchTerms}";
+            Description = "Github Code Search";
+            IconURL = "https://github.com/favicon.ico";
+          }
+        ];
+        Remove = [
+          "Google"
+          "Wikipedia (en)"
+          "Bing"
+          "DuckDuckGo"
+        ];
+      };
 
       ShowHomeButton = false;
-      StartDownloadsInTempDirectory = true;
+      PromptForDownloadLocation = true;
+      StartDownloadsInTempDirectory = false;
       UserMessaging = {
         WhatsNew = false;
         UrlbarInterventions = false;
@@ -67,31 +89,81 @@
         Locked = true;
       };
 
+      DisplayMenuBar = "default-off";
+
       ExtensionSettings =
         builtins.mapAttrs (
           _name: value: {
-            installation_mode = "normal_installed";
+            installation_mode = "force_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/${value}/latest.xpi";
           }
         ) {
-          "uBlock0@raymondhill.net" = "ublock-origin";
           "{74145f27-f039-47ce-a470-a662b129930a}" = "clearurls";
           "sponsorBlocker@ajay.app" = "sponsorblock";
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
           "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = "localcdn-fork-of-decentraleyes";
         };
 
+      "3rdparty".Extensions = {
+        # You can export the JSON configuration from the extension if you don't
+        # know how to configure something.
+        "uBlock0@raymondhill.net" = {
+          userSettings = {
+            advancedUserEnabled = true;
+            "externalLists" = "https://raw.githubusercontent.com/mchangrh/yt-neuter/main/yt-neuter.txt";
+            "importedLists" = [
+              "https://raw.githubusercontent.com/mchangrh/yt-neuter/main/yt-neuter.txt"
+            ];
+          };
+          adminSettings = {
+            selectedFilterLists = [
+              "user-filters"
+              "ublock-filters"
+              "ublock-badware"
+              "ublock-privacy"
+              "ublock-quick-fixes"
+              "ublock-unbreak"
+              "easylist"
+              "easyprivacy"
+              "urlhaus-1"
+              "plowe-0"
+              "fanboy-cookiemonster"
+              "ublock-cookies-easylist"
+              "adguard-cookies"
+              "ublock-cookies-adguard"
+              "fanboy-social"
+              "adguard-social"
+              "fanboy-thirdparty_social"
+              "easylist-chat"
+              "easylist-newsletters"
+              "easylist-notifications"
+              "easylist-annoyances"
+              "adguard-mobile-app-banners"
+              "adguard-other-annoyances"
+              "adguard-popup-overlays"
+              "adguard-widgets"
+              "ublock-annoyances"
+              "FRA-0"
+            ];
+          };
+        };
+      };
+
       SanitizeOnShutdown = {
+        Cache = false;
         Cookies = false;
+        Downloads = false;
+        FormData = true;
         History = false;
         Sessions = false;
         SiteSettings = false;
-        Cache = false;
-        Downloads = false;
         OfflineApps = false;
         Locked = true;
       };
 
+      HttpsOnlyMode = "enabled";
+
+      DownloadDirectory = "/home/default/Downloads";
       GoToIntranetSiteForSingleWordEntryInAddressBar = true;
 
       DNSOverHTTPS = {
@@ -101,12 +173,12 @@
       };
 
       Preferences = {
+        "browser.translations.automaticallyPopup" = set false;
         "general.autoScroll" = set true;
         "nglayout.initialpaint.delay" = set "0";
         "browser.aboutConfig.showWarning" = set false;
         "browser.startup.page" = set 1;
         "browser.translations.enable" = set false;
-        "browser.urlbar.dnsResolveSingleWordsAfterSearch" = set 1;
         "browser.tabs.loadInBackground" = set true;
         "browser.urlbar.quickactions.enabled" = set false;
         "browser.urlbar.quickactions.showPrefs" = set false;

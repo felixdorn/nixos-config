@@ -9,7 +9,7 @@ args @ {
     [
       ./hardware-configuration.nix
     ]
-    ++ (lib.filesystem.listFilesRecursive ./os);
+    ++ (lib.filesystem.listFilesRecursive ./nixos);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -137,24 +137,7 @@ args @ {
   # Home Manager
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
-    users = let
-      common = {
-        nixpkgs.config.allowUnfree = true;
-        nixpkgs.config.allowUnfreePredicate = v: true;
-      };
-    in
-      builtins.listToAttrs (
-        map
-        (user: {
-          name = user;
-          value = ((import ./users/${user}) args) // common;
-        })
-        (
-          builtins.filter
-          (user: config.users.users.${user}.isNormalUser)
-          (builtins.attrNames config.users.users)
-        )
-      );
+    users.default = import ./homeManager/default.nix;
   };
 
   # System
@@ -165,15 +148,19 @@ args @ {
     neovim
     git
   ];
+
   system.stateVersion = "23.11"; # Did you read the comment?
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+  };
 
   # Nix
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.gc.automatic = true;
   nix.gc.dates = "20:00";
   nixpkgs.config.allowUnfree = true;
+
   services.gnome.gnome-keyring.enable = true;
   services.dnsmasq = {
     enable = true;
@@ -191,6 +178,4 @@ args @ {
   services.hardware.bolt.enable = true;
   services.fwupd.enable = true;
   services.fwupd.extraRemotes = ["lvfs-testing"];
-  # Might be necessary once to make the update succeed
-  services.fwupd.uefiCapsuleSettings.DisableCapsuleUpdateOnDisk = true;
 }

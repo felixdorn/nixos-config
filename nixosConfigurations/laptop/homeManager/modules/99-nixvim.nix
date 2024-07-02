@@ -254,7 +254,9 @@
     plugins.none-ls = {
       enable = true;
       enableLspFormat = true;
-      updateInInsert = true;
+      settings = {
+        update_in_insert = true;
+      };
       # See: https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md
       sources = {
         code_actions = {
@@ -315,22 +317,12 @@
     };
 
     # URL: <https://github.com/m4xshen/hardtime.nvim>
-    plugins.hardtime.enable = true;
-
-    plugins.copilot-lua = {
-      enable = true;
-      suggestion = {enabled = false;};
-      panel = {enabled = false;};
-    };
+    plugins.hardtime.enable = false;
 
     plugins.cmp = {
       enable = true;
       autoEnableSources = true;
       settings.sources = [
-        {
-          name = "copilot";
-          priority = 100;
-        }
         {name = "nvim_lsp";}
         {name = "path";}
         {name = "buffer";}

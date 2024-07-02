@@ -1,7 +1,7 @@
 keys:
   - &primary age19vzt3ha7s8zdhfrf308mkcuggr2yxdak3ktg828975asy77ewcksaf64et
 creation_rules:
-  - path_regex: secrets/
+  - path_regex: nixosConfigurations/laptop/secrets/
     key_groups:
       - age:
         - *primary

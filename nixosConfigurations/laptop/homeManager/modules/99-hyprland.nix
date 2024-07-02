@@ -58,9 +58,9 @@
         preserve_split = "yes";
       };
 
-      master = {
-        new_is_master = true;
-      };
+      #master = {
+      #new_is_master = true;
+      #};
 
       gestures = {
         workspace_swipe = false;
@@ -136,6 +136,8 @@
       ];
 
       exec-once = [
+        "polkit-agent-helper-1"
+        "systemctl start --user polkit-gnome-authentication-agent-1"
         "${pkgs.hyprpaper}/bin/hyprpaper"
         "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
         "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"

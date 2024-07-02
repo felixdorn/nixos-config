@@ -1,15 +1,14 @@
 args @ {
   pkgs,
   config,
+  osConfig,
   inputs,
   lib,
   ...
 }: {
-  imports =
-    [
-      inputs.sops-nix.homeManagerModules.sops
-    ]
-    ++ (lib.filesystem.listFilesRecursive ./modules);
+  imports = lib.filesystem.listFilesRecursive ./modules;
+
+  nixpkgs.config.allowUnfree = true;
 
   home = {
     username = "default";
@@ -59,11 +58,23 @@ args @ {
     ];
   };
 
+  programs.rbw = {
+    enable = true;
+    settings = {
+      email = "felixdorn@protonmail.com";
+      base_url = "https://bitwarden.com";
+    };
+  };
   home.file.".npmrc".source = ./data/.npmrc;
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    BROWSER = "firefox-esr";
     TERM = "alacritty";
     NIXPKGS_ALLOW_UNFREE = "1"; # Sins ahead.
+  };
+
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = ["${pkgs.firefox-esr}/share/applications/firefox-esr.desktop"];
   };
 }
