@@ -21,7 +21,7 @@
       PasswordManagerEnabled = false;
       DisableProfileImport = true; # For purity
       DisableProfileRefresh = true;
-      #ExtensionUpdate = false;
+      ExtensionUpdate = false;
       # Websites are reasonable nowadays.
       PopupBlocking.Default = true;
 
@@ -49,7 +49,6 @@
           "Google"
           "Wikipedia (en)"
           "Bing"
-          "DuckDuckGo"
         ];
       };
 
@@ -100,54 +99,10 @@
         ) {
           "{74145f27-f039-47ce-a470-a662b129930a}" = "clearurls";
           "sponsorBlocker@ajay.app" = "sponsorblock";
+          "uBlock0@raymondhill.net" = "ublock-origin";
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
           "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = "localcdn-fork-of-decentraleyes";
         };
-
-      "3rdparty".Extensions = {
-        # You can export the JSON configuration from the extension if you don't
-        # know how to configure something.
-        "uBlock0@raymondhill.net" = {
-          userSettings = {
-            advancedUserEnabled = true;
-            "externalLists" = "https://raw.githubusercontent.com/mchangrh/yt-neuter/main/yt-neuter.txt";
-            "importedLists" = [
-              "https://raw.githubusercontent.com/mchangrh/yt-neuter/main/yt-neuter.txt"
-            ];
-          };
-          adminSettings = {
-            selectedFilterLists = [
-              "user-filters"
-              "ublock-filters"
-              "ublock-badware"
-              "ublock-privacy"
-              "ublock-quick-fixes"
-              "ublock-unbreak"
-              "easylist"
-              "easyprivacy"
-              "urlhaus-1"
-              "plowe-0"
-              "fanboy-cookiemonster"
-              "ublock-cookies-easylist"
-              "adguard-cookies"
-              "ublock-cookies-adguard"
-              "fanboy-social"
-              "adguard-social"
-              "fanboy-thirdparty_social"
-              "easylist-chat"
-              "easylist-newsletters"
-              "easylist-notifications"
-              "easylist-annoyances"
-              "adguard-mobile-app-banners"
-              "adguard-other-annoyances"
-              "adguard-popup-overlays"
-              "adguard-widgets"
-              "ublock-annoyances"
-              "FRA-0"
-            ];
-          };
-        };
-      };
 
       SanitizeOnShutdown = {
         Cache = false;
@@ -255,6 +210,50 @@
         # Fingerprinting
         "browser.startup.blankWindow" = set false;
         "browser.display.use_sytem_color" = set false;
+      };
+    };
+  };
+
+  home.file.".mozilla/managed-storage/uBlock0@raymondhill.net.json".text = builtins.toJSON {
+    name = "uBlock0@raymondhill.net";
+    description = "ignored";
+    type = "storage";
+    data = {
+      userSettings = [
+        ["advancedUserEnabled" "true"]
+        ["autoUpdate" "true"]
+      ];
+      toOverwrite = {
+        filterLists = [
+          "user-filters"
+          "ublock-filters"
+          "ublock-badware"
+          "ublock-privacy"
+          "ublock-quick-fixes"
+          "ublock-unbreak"
+          "easylist"
+          "easyprivacy"
+          "urlhaus-1"
+          "plowe-0"
+          "fanboy-cookiemonster"
+          "ublock-cookies-easylist"
+          "adguard-cookies"
+          "ublock-cookies-adguard"
+          "fanboy-social"
+          "adguard-social"
+          "fanboy-thirdparty_social"
+          "easylist-chat"
+          "easylist-newsletters"
+          "easylist-notifications"
+          "easylist-annoyances"
+          "adguard-mobile-app-banners"
+          "adguard-other-annoyances"
+          "adguard-popup-overlays"
+          "adguard-widgets"
+          "ublock-annoyances"
+          "FRA-0"
+          "https://raw.githubusercontent.com/mchangrh/yt-neuter/main/yt-neuter.txt"
+        ];
       };
     };
   };
