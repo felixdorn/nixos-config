@@ -1,34 +1,28 @@
-{pkgs, ...}: let
-  ip4 = "65.109.99.46";
-  ip6 = "2a01:4f9:3080:2428::2";
-  gateway4 = "65.109.99.1";
-  gateway6 = "fe80::1";
-  interface = "enp41s0";
-  hostName = "ax41";
-in {
-  boot.kernelParams = ["ip=${ip4}::${gateway4}:255.255.255.192:${hostName}:${interface}:off"];
+{pkgs, ...}: {
+  boot.kernelParams = ["ip=65.109.99.46::65.109.99.1:255.255.255.192:ax41:enp41s0:off"];
 
   networking = {
-    inherit hostName;
+    nameservers = ["1.1.1.1" "8.8.8.8"];
+    hostName = "ax41";
     useDHCP = false;
-    interfaces.${interface} = {
+    interfaces."enp41s0" = {
       ipv4.addresses = [
         {
-          address = ip4;
+          address = "65.109.99.46";
           prefixLength = 26;
         }
       ];
       ipv6.addresses = [
         {
-          address = ip6;
+          address = "2a01:4f9:3080:2428::2";
           prefixLength = 64;
         }
       ];
     };
-    defaultGateway = gateway4;
+    defaultGateway = "65.109.99.1";
     defaultGateway6 = {
-      inherit interface;
-      address = gateway6;
+      interface = "enp41s0";
+      address = "fe80::1";
     };
   };
 }

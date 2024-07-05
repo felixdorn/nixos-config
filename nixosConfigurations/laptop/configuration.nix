@@ -175,6 +175,7 @@ args @ {
       address = "/test/127.0.0.1";
     };
   };
+  security.pam.services.greetd.enableGnomeKeyring = true;
   services.hardware.bolt.enable = true;
   services.fwupd.enable = true;
   services.fwupd.extraRemotes = ["lvfs-testing"];

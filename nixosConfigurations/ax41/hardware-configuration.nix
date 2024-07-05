@@ -46,8 +46,20 @@
     options = ["bind"];
   };
 
+  fileSystems."/var/lib/docker" = {
+    device = "/nix/persist/var/lib/docker";
+    fsType = "none";
+    options = ["bind"];
+  };
+
   fileSystems."/var/log" = {
     device = "/nix/persist/var/log";
+    fsType = "none";
+    options = ["bind"];
+  };
+
+  fileSystems."/var/www" = {
+    device = "/nix/persist/var/www";
     fsType = "none";
     options = ["bind"];
   };

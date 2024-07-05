@@ -1,0 +1,86 @@
+http:
+  routers:
+    metabase.pivotalcontest.org:
+      rule: "Host(`metabase.pivotalcontest.org`)"
+      service: metabase.pivotalcontest.org
+    iconsnatch.forevue.org:
+      rule: "Host(`iconsnatch.forevue.org`)"
+      service: iconsnatch.forevue.org
+    preview.biosecurity.world:
+      rule: "Host(`preview.biosecurity.world`)"
+      service: preview.biosecurity.world
+    policies.xfe.li:
+      rule: "Host(`policies.xfe.li`)"
+      service: policies.xfe.li
+    l8.xfe.li:
+      rule: "Host(`l8.xfe.li`)"
+      service: l8.xfe.li
+    blank.xfe.li:
+      rule: "Host(`blank.xfe.li`)"
+      service: blank.xfe.li
+    book.xfe.li:
+      rule: "Host(`book.xfe.li`)"
+      service: book.xfe.li
+    webmail.forevue.org:
+      rule: "Host(`webmail.forevue.org`)"
+      service: webmail.forevue.org
+      tls:
+        certResolver: "letsencrypt"
+    plan.xfe.li:
+      rule: "Host(`plan.xfe.li`)"
+      service: plan.xfe.li
+    draw.xfe.li:
+      rule: "Host(`draw.xfe.li`)"
+      service: draw.xfe.li
+    jump.xfe.li:
+      rule: "Host(`jump.xfe.li`)"
+      service: jump.xfe.li
+    meeting.xfe.li:
+      rule: "Host(`meeting.xfe.li`)"
+      service: meeting.xfe.li
+
+  services:
+    meeting.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3011"
+    draw.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3008"
+    plan.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3007"
+    webmail.forevue.org:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3006"
+    book.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3005"
+    l8.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3004"
+    blank.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3003"
+    policies.xfe.li:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3002"
+    metabase.pivotalcontest.org:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3000"
+    preview.biosecurity.world:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3001"
+    iconsnatch.forevue.org:
+      loadBalancer:
+        servers:
+          - url: "http://0.0.0.0:3333"

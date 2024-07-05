@@ -23,7 +23,9 @@
 
     swraid = {
       enable = true;
-      mdadmConf = ''HOMEHOST ax41'';
+      mdadmConf = ''
+        HOMEHOST ax41
+      '';
     };
   };
 }

@@ -1,9 +1,10 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # hyprpicker -- not mature enough
+    # hyprpicker -not mature enough
     wl-clipboard
     hyprpaper
   ];
+  xdg.dataFile."scripts/hyprland-bitwarden-resize.sh".source = import ./bitwarden-resize-script.nix pkgs;
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -28,6 +29,7 @@
         kb_rules = "";
 
         follow_mouse = 1;
+        mouse_refocus = false;
 
         touchpad = {
           natural_scroll = "no";
@@ -47,9 +49,11 @@
         allow_tearing = false;
       };
 
-      decoration.rounding = 0;
-      decoration.drop_shadow = false;
-      decoration.blur.enabled = false;
+      decoration = {
+        rounding = 0;
+        drop_shadow = false;
+        blur.enabled = false;
+      };
 
       animations.enabled = "no";
 
@@ -57,10 +61,6 @@
         pseudotile = "yes";
         preserve_split = "yes";
       };
-
-      #master = {
-      #new_is_master = true;
-      #};
 
       gestures = {
         workspace_swipe = false;
@@ -139,13 +139,17 @@
         "polkit-agent-helper-1"
         "systemctl start --user polkit-gnome-authentication-agent-1"
         "${pkgs.hyprpaper}/bin/hyprpaper"
+        "${pkgs.wl-clip-persist}/bin/wl-clip-persist --clipboard regular"
         "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
         "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
+        "/home/default/share/scripts/hyprland-bitwarden-resize.sh"
       ];
 
       windowrulev2 = [
+        "suppressevent maximize, class:^(firefox)$"
         "noinitialfocus, class:^jetbrains-(?!toolbox),floating:1"
-        "workspace 3, class:^(Spotify)$"
+        "center, class:^jetbrains-(?!toolbox)"
+        "workspace 4, class:^(Spotify)$"
       ];
     };
   };
