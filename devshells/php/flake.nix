@@ -27,6 +27,7 @@
       in
         [php php.packages.composer]
         ++ (with pkgs; [
+          # Add dependencies here
           nodejs
         ]);
     };
