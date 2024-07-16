@@ -3,8 +3,8 @@
     # hyprpicker -not mature enough
     wl-clipboard
     hyprpaper
+    #wl-clip-persist
   ];
-  xdg.dataFile."scripts/hyprland-bitwarden-resize.sh".source = import ./bitwarden-resize-script.nix pkgs;
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -12,8 +12,6 @@
     settings = {
       monitor = [
         "eDP-1,2256x1504,0x0,1"
-        "DP-4,2560x1440,2256x0,1"
-        "DP-1,2560x1440,4816x0,1"
       ];
 
       env = [
@@ -142,7 +140,6 @@
         "${pkgs.wl-clip-persist}/bin/wl-clip-persist --clipboard regular"
         "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
         "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
-        "/home/default/share/scripts/hyprland-bitwarden-resize.sh"
       ];
 
       windowrulev2 = [

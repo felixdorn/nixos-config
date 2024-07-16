@@ -143,8 +143,8 @@ args @ {
   # System
   environment.systemPackages = with pkgs; [
     xdg-utils
-    gnome.seahorse
-    gnome.nautilus
+    seahorse
+    nautilus
     neovim
     git
   ];

@@ -42,6 +42,10 @@
         path = ./devshells/php;
         description = "PHP 8.3";
       };
+      go = {
+        path = ./devshells/go;
+        description = "GO 1.22";
+      };
     };
   };
 }

@@ -25,6 +25,7 @@ args @ {
         spotify
         feh
         vlc
+        obsidian
         # These naughty apps are glorified web pages, use a browser instead.
         # discord
         # whatsapp-for-linux
