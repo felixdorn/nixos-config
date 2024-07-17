@@ -8,7 +8,10 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     devShells.${system}.default = pkgs.mkShell {
-      nativeBuildInputs = with pkgs; [nodejs]
+      nativeBuildInputs = with pkgs; [
+        # Add dependencies here
+        nodejs
+      ];
     };
   };
 }
