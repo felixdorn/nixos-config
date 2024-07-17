@@ -46,6 +46,10 @@
         path = ./devshells/go;
         description = "GO 1.22";
       };
+      node = {
+        path = ./devshells/node;
+        description = "Node 22";
+      };
     };
   };
 }
